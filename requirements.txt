@@ -1,6 +1,6 @@
 pyyaml
 click
 tabulate
-build
 pytest
 twine
+build

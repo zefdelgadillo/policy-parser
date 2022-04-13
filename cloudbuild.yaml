@@ -1,7 +1,9 @@
 steps:
-  - name: python
+  - id: install-dependencies
+    name: python
     entrypoint: pip
     args: ["install", "-r", "requirements.txt", "--user"]
-  - name: python
+  - id: test 
+    name: python
     entrypoint: python
     args: ["-m", "pytest"]

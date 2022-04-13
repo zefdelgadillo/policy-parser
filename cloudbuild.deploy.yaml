@@ -1,14 +1,18 @@
 steps:
-  - name: python
+  - id: install-dependencies
+    name: python
     entrypoint: pip
     args: ["install", "-r", "requirements.txt", "--user"]
-  - name: python
+  - id: build-package
+    name: python
     entrypoint: python
     args: ["-m", "build"]
-  - name: python
+  - id: validate-package
+    name: python
     entrypoint: python
     args: ["-m", "twine", "check", "dist/*"]
-  - name: python
+  - id: distribute-package
+    name: python
     entrypoint: bash
     args: ["-c", "python -m twine upload /workspace/dist/* --repository pypi -u $$PYPI_USER -p $$PYPI_TOKEN"] # , twine upload --repository pypi
     secretEnv: ['PYPI_USER', 'PYPI_TOKEN']
