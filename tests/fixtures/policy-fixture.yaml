@@ -1,0 +1,65 @@
+bindings:
+- members:
+  - serviceAccount:555555555555@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - group:tech-dev-team@company.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-555555555555@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-555555555555@compute-system.iam.gserviceaccount.com
+  role: roles/compute.serviceAgent
+- members:
+  - serviceAccount:service-555555555555@gcp-sa-computescanning.iam.gserviceaccount.com
+  role: roles/computescanning.serviceAgent
+- members:
+  - serviceAccount:service-555555555555@container-engine-robot.iam.gserviceaccount.com
+  role: roles/container.serviceAgent
+- members:
+  - serviceAccount:service-555555555555@container-analysis.iam.gserviceaccount.com
+  role: roles/containeranalysis.ServiceAgent
+- members:
+  - serviceAccount:service-555555555555@dataflow-service-producer-prod.iam.gserviceaccount.com
+  role: roles/dataflow.serviceAgent
+- members:
+  - serviceAccount:service-555555555555@gcp-sa-datamigration.iam.gserviceaccount.com
+  role: roles/datamigration.serviceAgent
+- members:
+  - serviceAccount:555555555555-compute@developer.gserviceaccount.com
+  - serviceAccount:555555555555@cloudservices.gserviceaccount.com
+  - serviceAccount:app-development-proj-abc@appspot.gserviceaccount.com
+  - serviceAccount:service-555555555555@containerregistry.iam.gserviceaccount.com
+  role: roles/editor
+- members:
+  - serviceAccount:service-555555555555@firebase-rules.iam.gserviceaccount.com
+  role: roles/firebaserules.system
+- members:
+  - serviceAccount:service-555555555555@gcp-sa-firestore.iam.gserviceaccount.com
+  role: roles/firestore.serviceAgent
+- members:
+  - group:tech-code-guidance@company.com
+  - group:tech-dev-managers@company.com
+  - user:annbaker@company.com
+  - user:jimmyjohn@company.com
+  - user:louiefranco@company.com
+  - user:rhondaseltzer@company.com
+  role: roles/owner
+- members:
+  - serviceAccount:service-555555555555@sourcerepo-service-accounts.iam.gserviceaccount.com
+  role: roles/sourcerepo.serviceAgent
+- members:
+  - user:annbaker@company.com
+  - user:louiefranco@company.com
+  role: roles/storage.admin
+- members:
+  - user:annbaker@company.com
+  - user:louiefranco@company.com
+  role: roles/storage.objectAdmin
+- members:
+  - group:tech-all@company.com
+  - group:tech-dev-team@company.com
+  role: roles/viewer
+etag: BwXMrzgEuCM=
+version: 1
