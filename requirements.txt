@@ -4,3 +4,5 @@ tabulate
 pytest
 twine
 build
+yapf
+toml

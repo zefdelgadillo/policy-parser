@@ -64,15 +64,13 @@ class Policy(object):
 
     def principals(self):
         return [
-            m.member
-            for self.bindings in self.bindings
+            m.member for self.bindings in self.bindings
             for m in self.bindings.members
         ]
 
     def roles(self):
         return [
-            self.bindings.role
-            for self.bindings in self.bindings
+            self.bindings.role for self.bindings in self.bindings
             for m in self.bindings.members
         ]
 
