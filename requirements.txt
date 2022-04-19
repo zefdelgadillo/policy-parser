@@ -6,3 +6,5 @@ twine
 build
 yapf
 toml
+google-api-python-client
+oauth2client

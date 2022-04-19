@@ -1,4 +1,5 @@
 import re
+from types import NoneType
 
 
 class Policy(object):
@@ -33,46 +34,57 @@ class Policy(object):
         } for self.bindings in self.bindings for m in self.bindings.members]
         return dest
 
-    def filter_bindings_by_type(self, type):
-        type = type.lower()
+    def filter_bindings_by_type(self, principal_type=''):
+        if (isinstance(principal_type, NoneType)):
+            return self
+        principal_type = principal_type.lower()
         filtered_bindings = [
-            b for b in self.bindings
-            if any(m.principal_type.lower() == type for m in b.members)
+            b for b in self.bindings if any(
+                m.principal_type.lower() == principal_type for m in b.members)
         ]
         member_bindings = []
         for binding in filtered_bindings:
             binding.members = [
-                m for m in binding.members if m.principal_type.lower() == type
+                m for m in binding.members
+                if m.principal_type.lower() == principal_type
             ]
             member_bindings.append(binding)
         self.bindings = member_bindings
         return self
 
-    def filter_bindings_by_principal(self, principal):
+    def filter_bindings_by_principals(self, principals=[]):
+        if (isinstance(principals, NoneType)):
+            return self
         filtered_bindings = [
             b for b in self.bindings
-            if any(m.principal == principal for m in b.members)
+            if any(m.principal in principals for m in b.members)
         ]
         member_bindings = []
         for binding in filtered_bindings:
             binding.members = [
-                m for m in binding.members if m.principal == principal
+                m for m in binding.members if m.principal in principals
             ]
             member_bindings.append(binding)
         self.bindings = member_bindings
         return self
 
-    def principals(self):
-        return [
+    def members(self):
+        member_list = [
             m.member for self.bindings in self.bindings
             for m in self.bindings.members
         ]
+        return set(member_list)
 
-    def roles(self):
-        return [
-            self.bindings.role for self.bindings in self.bindings
+    def principals(self):
+        principal_list = [
+            m.principal for self.bindings in self.bindings
             for m in self.bindings.members
         ]
+        return set(principal_list)
+
+    def roles(self):
+        role_list = [b.role for b in self.bindings]
+        return set(role_list)
 
     def filter_bindings_by_domain(self, domain):
         # TODO: disallow service accounts
@@ -89,8 +101,10 @@ class Policy(object):
         self.bindings = member_bindings
         return self
 
-    def filter_bindings_by_role(self, role):
-        self.bindings = [b for b in self.bindings if b.role == role]
+    def filter_bindings_by_roles(self, roles=[]):
+        if (isinstance(roles, NoneType)):
+            return self
+        self.bindings = [b for b in self.bindings if b.role in roles]
         return self
 
     class Binding(object):

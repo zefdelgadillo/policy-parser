@@ -86,3 +86,22 @@ serviceAccount,service-555555555555@compute-system.iam.gserviceaccount.com,roles
 serviceAccount,service-555555555555@gcp-sa-computescanning.iam.gserviceaccount.com,roles/computescanning.serviceAgent
 serviceAccount,service-555555555555@container-engine-robot.iam.gserviceaccount.com,roles/container.serviceAgent
 ```
+
+#### Filter by Permission `pparse permission`
+```bash
+$ gcloud ... | pparse -o table permission storage.objects.get
+principal_type    principal                                                                    role
+----------------  ---------------------------------------------------------------------------  ------------------------------------
+serviceAccount    555555555555@cloudbuild.gserviceaccount.com                                  roles/cloudbuild.builds.builder
+serviceAccount    service-555555555555@gcp-sa-cloudbuild.iam.gserviceaccount.com               roles/cloudbuild.serviceAgent
+serviceAccount    service-555555555555@container-analysis.iam.gserviceaccount.com              roles/containeranalysis.ServiceAgent
+serviceAccount    service-555555555555@dataflow-service-producer-prod.iam.gserviceaccount.com  roles/dataflow.serviceAgent
+serviceAccount    service-555555555555@gcp-sa-datamigration.iam.gserviceaccount.com            roles/datamigration.serviceAgent
+serviceAccount    service-555555555555@firebase-rules.iam.gserviceaccount.com                  roles/firebaserules.system
+serviceAccount    service-555555555555@gcp-sa-firestore.iam.gserviceaccount.com                roles/firestore.serviceAgent
+user              annbaker@company.com                                                         roles/storage.admin
+user              louiefranco@company.com                                                      roles/storage.admin
+user              annbaker@company.com                                                         roles/storage.objectAdmin
+user              louiefranco@company.com                                                      roles/storage.objectAdmin
+```
+

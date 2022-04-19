@@ -1,4 +1,3 @@
-from random import sample
 from pparse.policy import Policy
 import pytest
 import yaml
@@ -12,6 +11,11 @@ def sample_policy():
                      'fixtures/policy-fixture.yaml'), "r")
     policy_dict = yaml.safe_load(f.read())
     return Policy().from_dict(policy_dict)
+
+
+@pytest.fixture
+def sample_binding(sample_policy):
+    return sample_policy.bindings[0]
 
 
 def test_policy_contains_bindings_list(sample_policy):
@@ -33,9 +37,66 @@ def test_policy_returns_dict(sample_policy):
     assert isinstance(sample_policy.to_dict(), dict)
 
 
-@pytest.fixture
-def sample_binding(sample_policy):
-    return sample_policy.bindings[0]
+def test_policy_returns_principals(sample_policy):
+    principals = sample_policy.principals()
+    assert len(principals) == 23
+    assert not list(principals)[0].startswith('serviceAccount')
+    assert not list(principals)[0].startswith('user')
+    assert not list(principals)[0].startswith('group')
+    assert not list(principals)[0].startswith('domain')
+
+
+def test_policy_returns_members(sample_policy):
+    members = sample_policy.members()
+    assert len(members) == 23
+    assert list(members)[0].startswith('user') or list(members)[0].startswith(
+        'group') or list(members)[0].startswith('serviceAccount') or list(
+            members)[0].startswith('domain')
+
+
+def test_policy_filter_by_principals(sample_policy):
+    test_principals = ['annbaker@company.com', 'louiefranco@company.com']
+    sample_policy.filter_bindings_by_principals(test_principals)
+    assert sample_policy.principals() == set(test_principals)
+
+
+def test_policy_filter_by_empty_principal(sample_policy):
+    fixture_policy = sample_policy
+    sample_policy.filter_bindings_by_principals([])
+    assert fixture_policy == sample_policy
+
+
+def test_policy_filter_by_roles(sample_policy):
+    test_roles = ['roles/owner', 'roles/editor']
+    sample_policy.filter_bindings_by_roles(test_roles)
+    assert sample_policy.roles() == set(test_roles)
+
+
+def test_policy_filter_by_invalid_roles(sample_policy):
+    test_roles = ['roles/owner', 'roles/editor']
+    sample_policy.filter_bindings_by_roles(test_roles)
+    assert sample_policy.roles() == set(test_roles)
+
+
+def test_policy_filter_by_empty_role(sample_policy):
+    fixture_policy = sample_policy
+    sample_policy.filter_bindings_by_roles([])
+    assert fixture_policy == sample_policy
+
+
+def test_policy_filter_by_type(sample_policy):
+    test_users = {
+        'annbaker@company.com', 'jimmyjohn@company.com',
+        'louiefranco@company.com', 'rhondaseltzer@company.com'
+    }
+    sample_policy.filter_bindings_by_type('user')
+    assert sample_policy.principals() == set(test_users)
+
+
+def test_policy_filter_by_empty_type(sample_policy):
+    fixture_policy = sample_policy
+    sample_policy.filter_bindings_by_type('')
+    assert fixture_policy == sample_policy
 
 
 def test_binding_contains_role(sample_binding):
