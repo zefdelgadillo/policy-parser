@@ -12,7 +12,8 @@ class Role:
             credentials = GoogleCredentials.get_application_default()
             self.service = discovery.build('iam',
                                            'v1',
-                                           credentials=credentials)
+                                           credentials=credentials,
+                                           cache_discovery=False)
         except ApplicationDefaultCredentialsError:
             raise (AuthenticationError(
                 'Not authenticated to Google Cloud. Try running `gcloud auth application-default login` \n\nSee https://developers.google.com/accounts/docs/application-default-credentials for more information.'
